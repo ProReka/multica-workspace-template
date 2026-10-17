@@ -27,11 +27,11 @@ When a parent issue is assigned to the squad:
 
 ### 2. Intra-Squad Quality & Review Gates
 - Developers work on dedicated feature branches, execute tests, and open Conventional Commit Pull Requests.
-- Developers submit their PRs to the **Technical Lead** for review. Developers never request human review directly.
+- Application PRs and non-PR deliverables require **Technical Lead** review. Pure infrastructure uses `READY (DevOps)`; mixed changes require both gates. Human handoff occurs only after the applicable gates.
 - The Technical Lead evaluates the PR against functional acceptance criteria, test coverage, and security boundaries.
 - **Circuit-Breaker Intervention:** If a sub-task encounters 3 failed review rounds or blocks a P0/P1 delivery, the Technical Lead steps in directly, finishes the code, and stamps approval to prevent token exhaustion.
 
 ### 3. Parent Delivery Roll-Up
 - The parent issue remains in `in_progress` while sub-tasks are active.
-- The parent issue moves to `in_review` only when all constituent sub-issues have attained `APPROVED (TL)` or `READY (DevOps)`.
-- The Project Manager compiles the rolled-up evidence and hands off the completed deliverable to the human Owner for final review and merge.
+- The parent issue moves to `in_review` only when all children pass the applicable technical gates with verified evidence; mixed changes require both approvals.
+- The Project Manager compiles evidence for human acceptance and merge. Completion follows governance step 8, including explicit Owner acceptance for non-PR deliverables and completion of all children.

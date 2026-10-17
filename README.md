@@ -10,7 +10,7 @@ An architectural blueprint for building and operating autonomous multi-agent eng
 Task decomposition, Work Breakdown Structure (WBS), agent task assignment, dependency tracking, and daily standup digests are fully automated by the **Project Manager Agent**. Human team members focus on strategic direction, product vision, and final merge authorization.
 
 ### 2. Dual Quality & Safety Gates
-- **Technical Review Gate (Technical Lead Agent):** Developer agents never request review or merge directly from humans. Code must pass automated quality, security, and test verification by the Technical Lead (`APPROVED (TL)`).
+- **Technical Review Gate:** Application changes require Technical Lead review (`APPROVED (TL)`). Pure infrastructure changes use DevOps self-review (`READY (DevOps)`); mixed application/infrastructure changes require both. Implementation agents hand off to humans only after the applicable gate.
 - **Pragmatic Circuit-Breaker:** The Technical Lead is empowered to directly write and fix code during critical production incidents (P0/P1) or after 3 failed developer review rounds. This guarantees delivery and eliminates token waste.
 - **Human Merge Gate:** Protected branch merges (`main`, `master`, `production`) are strictly reserved for humans (Project Lead, Senior Engineer, Workspace Director). Autonomous agents cannot merge into protected branches.
 
@@ -37,7 +37,7 @@ agentic-workspace-template/
 │   ├── repository-catalog.md          # Architectural catalog mapping repositories to layers
 │   ├── taxonomy-and-attributes.md     # Custom properties (Owner, Reviewers) & semantic labels
 │   └── human-roles.md                 # Human governance matrix (Director, Leads, Engineers)
-├── agents/                            # Production-grade prompt configurations for 13 agents
+├── agents/                            # Production-grade prompt configurations for 11 agents
 │   ├── project-manager.md             # WBS, agent assignment, blocker tracking & daily sync
 │   ├── technical-lead.md              # Architecture, review gate & emergency coding circuit-breaker
 │   ├── backend-engineer.md            # Polyglot backend service engineering & database optimization
@@ -97,6 +97,8 @@ When replicating this blueprint to a new organization, replace these placeholder
 
 ## 4. Quickstart: Replicating to a New Workspace
 
+This repository contains policy and prompt templates, not an executable runtime. `workspace/governance-rules.md` is the authoritative policy; role prompts and skills extend it. Configure permissions, scheduling, issue transitions, and integrations in your runtime before enabling agents.
+
 1. **Initialize Governance:**
    - Create a workspace on your agent runtime platform.
    - Set the contents of `workspace/governance-rules.md` as the core workspace context.
@@ -106,8 +108,11 @@ When replicating this blueprint to a new organization, replace these placeholder
 3. **Register Skills:**
    - Import the 5 folders in `skills/` into the workspace skills registry.
 4. **Deploy Autonomous Agents:**
-   - Create the 13 agents using the instruction prompts in `agents/`.
+   - Create the 11 agents using the instruction prompts in `agents/`.
    - Bind the corresponding skills as documented in each agent's specification.
-5. **Form Squads & Activate Autopilots:**
-   - Instantiate the `Core Engineering Squad` following `squads/core-engineering-squad.md`.
-   - Configure the 5 autopilot schedules in `autopilots/` with your team's webhook endpoints (Slack, Telegram, Discord, or Microsoft Teams).
+5. **Enforce Runtime Guardrails:**
+   - Apply the permissions and approval controls in section 10 of `workspace/governance-rules.md`; prompts alone are not security controls.
+6. **Pilot Before Scaling:**
+   - Start with Project Manager, Technical Lead, one engineer, and one human Owner. Complete one small change through review and human merge; verify triggers do not create duplicate runs.
+   - Add other roles as needed using `squads/core-engineering-squad.md`.
+   - Enable the 5 autopilots only after verifying permissions, run-state inspection, recovery deduplication, notification channels, and the scheduler timezone.

@@ -12,7 +12,7 @@
 You are preparing the daily standup digest to synchronize human team members and autonomous agents prior to the morning sync.
 
 ### Steps
-1. **Recent Completions:** List all issues merged and transitioned to `done` since the previous working day.
+1. **Recent Completions:** List issues transitioned to `done` since the previous working day, linking human merge evidence or explicit Owner acceptance for non-PR deliverables.
 2. **Stalled & Blocked Items:** Identify all open issues in `in_progress`, `in_review`, or `blocked` that have had no progress or updates for more than 24 hours. For each item, record:
    - Issue Key & Title
    - Accountable Human Owner

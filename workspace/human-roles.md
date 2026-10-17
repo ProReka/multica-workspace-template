@@ -18,7 +18,7 @@ This multi-agent architecture is designed around human leadership (*Human-in-the
 - **Authorities:**
   - Owns project backlog and sprint commitments.
   - Decides WHAT and WHY: defines acceptance criteria and resolves ambiguity.
-  - Acts as the primary Issue Owner and merges PRs following Technical Lead approval.
+  - Acts as the primary Issue Owner, accepts non-PR deliverables, and merges PRs after the applicable technical gate (`APPROVED (TL)`, `READY (DevOps)`, or both).
 
 ### 3. Senior Engineer / Technical Reviewer
 - **Focus:** Long-term system maintainability, architectural integrity, and code standards.

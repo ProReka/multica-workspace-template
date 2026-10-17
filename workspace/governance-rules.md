@@ -49,7 +49,7 @@ Agent mentions with official URI links initiate execution runs. Plain text menti
 Every issue must have **exactly one human Owner**:
 1. Defined via the custom issue property `Owner`, or the first line of the issue description: `Owner: <Role/Name>`.
 2. Fallback: The **Project Lead** of the associated project.
-3. The Owner is accountable for business scope decisions, reviews the work after Technical Lead approval, and performs the final merge.
+3. The Owner is accountable for business scope decisions and accepts the deliverable after the applicable technical gate. An authorized human performs the final merge; non-PR deliverables require explicit Owner acceptance.
 
 ---
 
@@ -58,7 +58,7 @@ Every issue must have **exactly one human Owner**:
 ```text
 [1. Intake & Assignment] ──> [2. Technical Draft] ──> [3. Implementation] ──> [4. Request TL Review]
                                                                                      │
-[8. Done] <── [7. Human Merge Gate] <── [6. TL Approved] <── [5. Review Gate & Circuit-Breaker]
+[8. Done] <── [7. Human Acceptance/Merge] <── [6. Applicable Gate Passed] <── [5. Review Gate & Circuit-Breaker]
 ```
 
 1. **Assignment:** Only Project Manager, Technical Lead, or DevOps Engineer assign agents. Other agents creating issues leave them in `backlog` unassigned and mention the Project Manager.
@@ -67,17 +67,21 @@ Every issue must have **exactly one human Owner**:
    - Reads the issue and comments; clarifies unknowns before coding.
    - Sets status to `in_progress`, checks out a dedicated branch, and posts a short plan.
    - Writes clean, self-documenting code with unit/integration tests and zero linter warnings.
-   - Opens a Pull Request adhering to Conventional Commits and attaches verification evidence.
+   - Opens a Pull Request adhering to Conventional Commits and attaches verification evidence. For non-PR work (design, analysis, or external documentation), attaches the versioned artifact and validation evidence instead.
 4. **Request Review:** Developer sets status to `in_review` and comments:
    `[@Technical Lead](mention://agent/[TL_ID]) please review: <PR URL> — summary, tests run, risks.`
-   *Developers never request human review or merge directly.*
+   *Application developers never request human review or merge before TL approval. Pure infrastructure work follows the DevOps gate below.*
 5. **Review Gate & Pragmatic Circuit-Breaker:**
    - Technical Lead inspects diff accuracy, test coverage, security boundaries, and acceptance criteria.
    - If changes are needed: TL provides numbered, actionable feedback and mentions the developer.
    - **Pragmatic Circuit-Breaker:** After 3 failed review rounds, or immediately during critical production incidents (P0/P1), the Technical Lead has full authority to directly take over the branch, write or fix the required code, run tests, and complete delivery. This prevents token waste and eliminates infinite review loops.
-6. **TL Approved:** Technical Lead posts `APPROVED (TL)` summarizing changes, risk tier (Routine or High-Risk), PR link, and mentions the human Owner.
-7. **Human Merge Gate:** Merge is performed exclusively by humans (Owner, Senior Engineer, or Workspace Director for High-Risk changes). Agents are strictly forbidden from merging into protected branches (`main`, `master`, `production`).
-8. **Done:** An issue transitions to `done` only after the PR is merged by a human.
+6. **Applicable Technical Gate:**
+   - Application changes and non-PR deliverables require `APPROVED (TL)` after Technical Lead review.
+   - Pure infrastructure changes require DevOps self-review with `READY (DevOps)` and plan/verification evidence; TL review is not required.
+   - Mixed application/infrastructure changes require both `APPROVED (TL)` and `READY (DevOps)`.
+   - Each gate records the risk tier, PR or artifact link, evidence, and a mention of the human Owner. TL-authored fixes must be disclosed for human review; self-approval is not an independent review.
+7. **Human Acceptance & Merge Gate:** An authorized human (Owner, Senior Engineer, or Workspace Director) performs every merge. High-Risk changes additionally require explicit Workspace Director approval before merge. Production infrastructure execution requires explicit approval from both the Owner and Workspace Director for the exact plan. No incident or circuit-breaker bypasses these gates.
+8. **Done:** PR-backed work is `done` only after all associated PRs are merged by a human. Non-PR work is `done` only after the applicable technical gate and explicit Owner acceptance of the linked artifact. Parent issues are `done` only after all children satisfy their completion gates.
 
 ---
 
@@ -94,6 +98,14 @@ Every issue must have **exactly one human Owner**:
   b. The agent is invoked via an official mention URI link.
 - **One trigger per step:** Use status assignment OR mention, never both simultaneously.
 - Status `backlog` parks work; assigning in backlog triggers nothing.
+
+### Issue, Run & PR State Are Separate
+- **Issue lifecycle:** `backlog` → `todo` → `in_progress` → `in_review` → `done`; `blocked` requires a stated dependency and responsible party. Human approval waits remain `in_review`, never `todo`.
+- **Transition authority:** PM, TL, or DevOps dispatch to `todo`. The assignee starts work (`in_progress`), requests review (`in_review`), or records a blocker (`blocked`). A dispatcher resumes blocked work only after the dependency is resolved. Humans may manage these states within the same gates.
+- **Completion authority:** The human Owner or PM records `done` only with the merge or acceptance evidence required by step 8. No agent may infer acceptance from silence.
+- **Run state:** The runtime reports queued, running, succeeded, failed, or cancelled executions independently of issue status. A successful run does not mean the deliverable is complete.
+- **PR state:** Open, approved, and merged are repository states. An issue status or approval comment never substitutes for an actual human merge.
+- **Recovery authority:** PM performs recovery using `autopilots/stuck-tasks-recovery.md`. No other agent or schedule independently retries the same issue; inability to inspect or deduplicate runs requires escalation, not a speculative retry.
 
 ---
 
@@ -118,3 +130,11 @@ Every actionable update between collaborators must provide:
 3. **Responsible Party:** Exactly one designated agent or person.
 4. **Required Evidence:** Verifiable artifacts required to proceed.
 5. **Agreed Checkpoint:** Clear timeframe or evaluation milestone.
+
+---
+
+## 10. Required Runtime Enforcement
+- **Repository permissions:** Agent credentials must not permit protected-branch writes, merges, force-pushes, or protection bypasses. Protect `main`, `master`, `develop`, and `production`; require human review and applicable CI checks. Approval comments alone do not enforce access control.
+- **Production permissions:** Keep standing production write credentials outside agent sessions. Use a human-controlled deployment gate that verifies Owner and Director approval against the exact plan/revision before issuing scoped, short-lived execution access. Changed plans require fresh approval.
+- **Execution controls:** Allow at most one queued/running execution per issue. Normal dispatch and recovery must share an atomic per-issue dispatch guard; retain durable trigger IDs, recovery counts, timestamps, and run links. If the runtime cannot enforce this, keep automatic recovery disabled.
+- **Scheduler configuration:** Set an explicit workspace timezone and enable schedules only after verifying run-state inspection, notification routing, and audit logging.
