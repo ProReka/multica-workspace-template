@@ -4,7 +4,7 @@ Status: starter-kit specification, not a certified deployment. Static checks val
 
 ## 1. Setup Record
 
-Copy this record into the target workspace; replace template placeholders in the deployed copies, not in this reusable source. Keep credentials in the platform secret store, never in these documents.
+Use this record as the single configuration source for the target workspace, or link to existing platform records instead of copying them. Role names identify responsibilities, not required display names; resolve actual agent/member IDs from the workspace directory. Keep credentials in the platform secret store, never in these documents.
 
 ```text
 Company / domain / repository organization / issue prefix / product:
@@ -28,7 +28,7 @@ Pilot evidence / unresolved limitations / human go-live decision:
 
 Map each enabled role to the actual runtime capability and least-privilege tools; model descriptions are capability requirements, not vendor guarantees. A single human may hold multiple roles where appropriate, but do not represent that as independent review. Critical self-authored work requires a separate qualified reviewer.
 
-Load governance and the product playbook into every enabled agent's context, then its role prompt and bound skills. Translate mention URIs and status triggers to the runtime's supported mechanism; verify behavior rather than assuming these URI formats work everywhere. Do not enable duplicate triggers while adapting.
+Load governance and the product playbook into every enabled agent's context, then its role prompt and bound skills. For Multica, use the mention format in governance with actual IDs and arbitrary display names; verify status-trigger behavior in the target workspace. For another runtime, adapt the trigger mechanism without changing role responsibilities. Do not enable duplicate triggers while adapting.
 
 ## 2. Activation Sequence
 

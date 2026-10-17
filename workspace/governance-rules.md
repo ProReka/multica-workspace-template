@@ -19,29 +19,23 @@ Organizations operate across modern modular or distributed architectures:
 ### Human Team
 Human mentions notify individuals for consultation, business decisions, and approval gates. Human mentions **never** trigger autonomous agent execution runs.
 
-| Role | Responsibility & Authority | Mention Syntax |
-|---|---|---|
-| **Workspace Director** | Executive leadership. Approves High-Risk actions (production deployments, budget/cloud spending, sensitive data, security policies). | `[@Workspace Director](mention://member/[DIRECTOR_ID])` |
-| **Project Lead** | Domain/product owner. Defines WHAT and WHY (goals, scope, priority, acceptance criteria) and acts as the accountable Issue Owner. | `[@Project Lead](mention://member/[PROJECT_LEAD_ID])` |
-| **Senior Engineer** | Human engineering staff. Reviews critical architecture, provides secondary sign-off, and merges pull requests. | `[@Senior Engineer](mention://member/[SENIOR_ENG_ID])` |
-| **Dynamic Roles** | Adaptable per organization: Human PM, Human DevOps, Operations, Finance Admin, Domain Specialists. | `[@<Role Name>](mention://member/[MEMBER_ID])` |
+| Role | Responsibility & Authority |
+|---|---|
+| **Workspace Director** | Executive leadership. Approves High-Risk actions, production execution, spending, and security policies. |
+| **Project Lead** | Defines WHAT and WHY: goals, scope, priority, acceptance criteria; accountable human Issue Owner. |
+| **Senior Engineer** | Reviews critical architecture, provides independent verification, and merges approved changes. |
+
+Other human roles may be added as needed; record actual identities and approval authority in the workspace setup.
 
 ### Autonomous Agent Team
-Agent mentions with official URI links initiate execution runs. Plain text mentions do nothing.
+Available responsibilities and skill bindings are defined in `agents/`; do not maintain a second agent inventory here. Map responsibilities to actual agent identities in the workspace setup.
 
-| Role | Core Function | Mention Syntax |
-|---|---|---|
-| **Project Manager** | Work breakdown (WBS), agent task assignment, blocker tracking, stakeholder sync. | `[@Project Manager](mention://agent/[PM_ID])` |
-| **Technical Lead** | Technical architecture, technical drafts, code review gate, and circuit-breaker coding. | `[@Technical Lead](mention://agent/[TL_ID])` |
-| **Backend Engineer** | Polyglot backend service implementation, API endpoints, database schemas, unit tests. | `[@Backend Engineer](mention://agent/[BACKEND_ID])` |
-| **Frontend Engineer** | Web user interfaces, design system compliance, client state, web performance. | `[@Frontend Engineer](mention://agent/[FRONTEND_ID])` |
-| **Mobile Engineer** | Mobile clients, native/cross-platform modules, build pipeline, secure app storage. | `[@Mobile Engineer](mention://agent/[MOBILE_ID])` |
-| **DevOps Engineer** | IaC, container platforms, CI/CD runners, cloud resources, production change reviews. | `[@DevOps Engineer](mention://agent/[DEVOPS_ID])` |
-| **AI Engineer** | LLM services, schema-validated outputs, prompt engineering, RAG, workflow automation. | `[@AI Engineer](mention://agent/[AI_ENG_ID])` |
-| **Application Support** | Observability, error monitoring triage, deduplication, P0/P1 incident ticketing. | `[@Application Support](mention://agent/[APP_SUPPORT_ID])` |
-| **Data Analyst** | Read-only SQL query analysis, metric verification, executive dashboards and reports. | `[@Data Analyst](mention://agent/[DATA_ANALYST_ID])` |
-| **UI/UX Designer** | Production-ready screen specs, design system tokens, WCAG 2.2 accessibility, UX flows. | `[@UI/UX Designer](mention://agent/[DESIGNER_ID])` |
-| **Technical Writer** | System documentation, OpenAPI/API schemas, ADR curation, verified knowledge base. | `[@Technical Writer](mention://agent/[TECH_WRITER_ID])` |
+### Multica Mentions
+
+- Trigger an agent with `[@<display name>](mention://agent/<actual-agent-id>)`.
+- Notify a human with `[@<display name>](mention://member/<actual-member-id>)`; this does not start an agent run.
+- Display names are unrestricted: `Technical Lead`, `Technical Lead - John`, and `TL - John Craig` may serve the same responsibility. The URI type and actual ID identify the target, not the label.
+- Resolve IDs from the current workspace directory. Never infer an ID from a name or send placeholder IDs. Plain text mentions do not trigger execution. Verify the target and use one trigger per step.
 
 ---
 
@@ -68,8 +62,7 @@ Every issue must have **exactly one human Owner**:
    - Sets status to `in_progress`, checks out a dedicated branch, and posts a short plan.
    - Writes clean, self-documenting code with unit/integration tests and zero linter warnings.
    - Opens a Pull Request adhering to Conventional Commits and attaches verification evidence. For non-PR work (design, analysis, or external documentation), attaches the versioned artifact and validation evidence instead.
-4. **Request Review:** Developer sets status to `in_review` and comments:
-   `[@Technical Lead](mention://agent/[TL_ID]) please review: <PR URL> — summary, tests run, risks.`
+4. **Request Review:** Developer sets status to `in_review` and mentions the agent mapped to Technical Lead using the Multica format above, including the artifact/PR link, summary, tests run, and risks.
    *Application developers never request human review or merge before TL approval. Pure infrastructure work follows the DevOps gate below.*
 5. **Review Gate & Pragmatic Circuit-Breaker:**
    - Technical Lead inspects diff accuracy, test coverage, security boundaries, and acceptance criteria.
