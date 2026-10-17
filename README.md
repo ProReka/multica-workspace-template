@@ -1,17 +1,28 @@
-# Autonomous Multi-Agent Workspace Framework
+# Human–AI Workspace Starter Kit
 
-An architectural blueprint for building and operating autonomous multi-agent engineering organizations. This framework defines the division of labor between **Human Leadership** (*Human-in-the-Loop*) and **Autonomous AI Agents** across software engineering, DevOps, observability, design, and project delivery.
+Current team: **Product Development**. A reusable operating specification for humans and AI agents delivering measurable product outcomes: discovery, design, engineering, verification, release, and learning.
+
+This is a starter kit and acceptance benchmark, not a running platform or a claim of production readiness. It contains 11 agents and 5 skills; enable only those your workspace needs. Other business teams are **coming soon**.
+
+## Start Here
+
+1. Read the authoritative policy: `workspace/governance-rules.md`.
+2. Use `workspace/product-delivery.md` for outcome, readiness, quality, release, and evaluation contracts.
+3. Complete `workspace/operational-readiness.md`; run the sandbox benchmark and a real pilot before enabling production automation.
+4. Validate this source with `python3 checks/check_template.py`. Static checks do not validate runtime enforcement.
+
+**Architecture:** shared ownership, evidence, approvals, handoff, escalation, and audit form the reusable foundation. PRs, CI, releases, and rollback are the current Product Development domain. Future teams will use domain-specific artifacts and controls; they are not implemented here.
 
 ---
 
 ## 1. Architectural Philosophy & Pillars
 
-### 1. Autonomous Project Delivery (No Human PM Required)
-Task decomposition, Work Breakdown Structure (WBS), agent task assignment, dependency tracking, and daily standup digests are fully automated by the **Project Manager Agent**. Human team members focus on strategic direction, product vision, and final merge authorization.
+### 1. Outcome-Led Product Delivery
+The **Project Manager Agent** coordinates scope, task decomposition, dispatch, dependencies, evidence, and reporting within approved limits. Humans own product decisions, priorities, budgets, acceptance, and production authorization. Delivery, release, and outcome evaluation remain distinct; completed tasks do not prove customer value.
 
 ### 2. Dual Quality & Safety Gates
 - **Technical Review Gate:** Application changes require Technical Lead review (`APPROVED (TL)`). Pure infrastructure changes use DevOps self-review (`READY (DevOps)`); mixed application/infrastructure changes require both. Implementation agents hand off to humans only after the applicable gate.
-- **Pragmatic Circuit-Breaker:** The Technical Lead is empowered to directly write and fix code during critical production incidents (P0/P1) or after 3 failed developer review rounds. This guarantees delivery and eliminates token waste.
+- **Pragmatic Circuit-Breaker:** The Technical Lead is empowered to directly write and fix code during critical production incidents (P0/P1) or after 3 failed developer review rounds. Authorship must be disclosed; human gates remain mandatory. Critical self-authored changes require independent human verification.
 - **Human Merge Gate:** Protected branch merges (`main`, `master`, `production`) are strictly reserved for humans (Project Lead, Senior Engineer, Workspace Director). Autonomous agents cannot merge into protected branches.
 
 ### 3. Industry-Agnostic & Polyglot
@@ -29,15 +40,17 @@ Task decomposition, Work Breakdown Structure (WBS), agent task assignment, depen
 ## 2. Directory Structure
 
 ```text
-agentic-workspace-template/
+multica-workspace-template/
 ├── README.md                          # Framework architecture guide & replication handbook
 ├── workspace/                         # Governance policies & organizational operating models
-│   ├── governance-rules.md            # 8-step delivery workflow & closed-loop handoff contract
+│   ├── governance-rules.md            # Authoritative policy, approval & runtime contracts
+│   ├── product-delivery.md            # Outcome, readiness, quality, release & evaluation
+│   ├── operational-readiness.md       # Setup record, activation sequence & benchmark
 │   ├── projects-model.md              # Domain portfolio archetypes (SaaS, E-Commerce, Agency)
 │   ├── repository-catalog.md          # Architectural catalog mapping repositories to layers
 │   ├── taxonomy-and-attributes.md     # Custom properties (Owner, Reviewers) & semantic labels
 │   └── human-roles.md                 # Human governance matrix (Director, Leads, Engineers)
-├── agents/                            # Production-grade prompt configurations for 11 agents
+├── agents/                            # Role prompt templates for 11 agents
 │   ├── project-manager.md             # WBS, agent assignment, blocker tracking & daily sync
 │   ├── technical-lead.md              # Architecture, review gate & emergency coding circuit-breaker
 │   ├── backend-engineer.md            # Polyglot backend service engineering & database optimization
@@ -57,7 +70,8 @@ agentic-workspace-template/
 │   ├── evening-delivery-wrapup.md     # EOD delivery summary & overnight workload planning (17:30)
 │   ├── stuck-tasks-recovery.md        # Autonomous watchdog for halted or failing agent runs
 │   └── inbound-chat-router.md         # Inbound chat & webhook router (Slack, Telegram, Discord)
-└── skills/                            # 5 Lean, non-conflicting core knowledge packs
+├── checks/check_template.py            # Dependency-free source consistency check
+└── skills/                            # 5 shared knowledge packs
     ├── project-delivery/              # WBS, RACI, three-point estimation & change control
     ├── technical-leadership/          # Architecture guidelines, review gate & circuit-breaker
     ├── ui-ux-design-system/           # Tokens, WCAG 2.2 accessibility & anti-generic principles
@@ -101,18 +115,33 @@ This repository contains policy and prompt templates, not an executable runtime.
 
 1. **Initialize Governance:**
    - Create a workspace on your agent runtime platform.
-   - Set the contents of `workspace/governance-rules.md` as the core workspace context.
+   - Load `workspace/governance-rules.md` and `workspace/product-delivery.md` as shared context for every enabled agent.
+   - Complete the setup record in `workspace/operational-readiness.md`, including runtime-specific trigger mapping, contacts, coverage, budgets, and permissions.
    - Configure custom properties (`Owner`, `Reviewers`, `Risk Tier`, `Target Environment`) according to `workspace/taxonomy-and-attributes.md`.
 2. **Link Repositories:**
    - Connect your organization repositories using the mapping principles in `workspace/repository-catalog.md`.
 3. **Register Skills:**
    - Import the 5 folders in `skills/` into the workspace skills registry.
 4. **Deploy Autonomous Agents:**
-   - Create the 11 agents using the instruction prompts in `agents/`.
+   - Register the needed roles from the 11 agents in `agents/`; keep unused roles disabled. Start with PM, TL, and one engineer.
    - Bind the corresponding skills as documented in each agent's specification.
 5. **Enforce Runtime Guardrails:**
    - Apply the permissions and approval controls in section 10 of `workspace/governance-rules.md`; prompts alone are not security controls.
 6. **Pilot Before Scaling:**
-   - Start with Project Manager, Technical Lead, one engineer, and one human Owner. Complete one small change through review and human merge; verify triggers do not create duplicate runs.
+   - Follow `workspace/operational-readiness.md`: run the sandbox benchmark, then one small real change through human acceptance, authorized release, verification, and an outcome checkpoint. Include a separate human reviewer where independent verification is required.
    - Add other roles as needed using `squads/core-engineering-squad.md`.
-   - Enable the 5 autopilots only after verifying permissions, run-state inspection, recovery deduplication, notification channels, and the scheduler timezone.
+   - Enable autopilots individually only after their applicable benchmark scenarios pass. Production automation requires recorded human go-live approval.
+
+## 5. Future Teams — Coming Soon
+
+Only Product Development is implemented. Planned team templates, with domain-specific approval and evidence controls:
+
+| Status | Teams |
+|---|---|
+| Coming soon | Marketing; Sales; Customer Experience; Finance & Accounting |
+| Coming soon | Legal; People & Organization; Corporate Strategy; Business Operations |
+| Coming soon | Procurement; Manufacturing; Logistics & Distribution; Quality Management |
+| Coming soon | IT & Workplace Technology; Security; Risk & Compliance; Data & Analytics |
+| Coming soon | Research & Innovation; Facilities & Asset Management; Corporate Development & Investor Relations |
+
+Current engineering support roles (DevOps, analyst, designer, support) serve Product Development; they do not imply those standalone teams are implemented. No delivery dates or autonomous authority are promised for future teams.

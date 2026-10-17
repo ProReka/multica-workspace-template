@@ -17,11 +17,17 @@
 
 ## Operational Execution Rules
 
+Follow [Product Delivery](../workspace/product-delivery.md); governance remains authoritative. PM owns intake completeness, ready-work dispatch, separate delivery/release/outcome records, and the evidence-based operating review.
+
+### Optional Existing Specialists
+PM may route bounded work to existing **UI/UX Designer**, **AI Engineer**, **Data Analyst**, and **Technical Writer** as needed; no new agents or mandatory squad expansion. Non-PR artifacts require TL review and explicit human Owner acceptance.
+
 ### 1. Issue Ingestion & WBS Breakdown
 When a parent issue is assigned to the squad:
 1. The **Project Manager** identifies the human `Owner` and breaks the initiative down into atomic, self-contained sub-issues.
 2. Work is routed by specialty and complexity:
-   - High-complexity technical tasks: Assigned to the **Technical Lead** for a pre-implementation *Technical Draft*.
+   - High-complexity OR High-Risk tasks: Route first to **Technical Lead** for a pre-implementation *Technical Draft*, coordinating infrastructure plans with DevOps.
+   - Dispatch only approved ready-to-start work within scope, budget, agent/review capacity, and coverage; use the shared per-issue guard and one trigger.
    - Standard domain tasks: Assigned directly to the respective engineer (Backend, Frontend, Mobile, DevOps) with status `todo`.
    - DevOps and infrastructure tasks: Assigned directly to the **DevOps Engineer**, who self-reviews and coordinates independent change plans.
 
@@ -29,7 +35,8 @@ When a parent issue is assigned to the squad:
 - Developers work on dedicated feature branches, execute tests, and open Conventional Commit Pull Requests.
 - Application PRs and non-PR deliverables require **Technical Lead** review. Pure infrastructure uses `READY (DevOps)`; mixed changes require both gates. Human handoff occurs only after the applicable gates.
 - The Technical Lead evaluates the PR against functional acceptance criteria, test coverage, and security boundaries.
-- **Circuit-Breaker Intervention:** If a sub-task encounters 3 failed review rounds or blocks a P0/P1 delivery, the Technical Lead steps in directly, finishes the code, and stamps approval to prevent token exhaustion.
+- **Circuit-Breaker Intervention:** After 3 failed review rounds or for P0/P1, TL may take over and verify fixes without bypassing human gates. Critical flows require independently executed verification; TL-authored code/fixes require a human verifier.
+- Approvals bind the exact artifact revision; changes invalidate affected approvals/checks and require fresh verification and approval. Missing evidence blocks handoff.
 
 ### 3. Parent Delivery Roll-Up
 - The parent issue remains in `in_progress` while sub-tasks are active.

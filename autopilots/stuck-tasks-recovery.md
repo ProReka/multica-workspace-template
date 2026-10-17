@@ -10,6 +10,8 @@
 
 ## Execution Prompt
 
+Follow the [common autopilot contract](../workspace/governance-rules.md) and [Product Delivery](../workspace/product-delivery.md): record source/window and configured timezone; deduplicate runs/notifications. Missing telemetry is unknown, not success. Notification failure escalates through an alternate channel, never blind retry. Product incidents use immediate event escalation, not this recovery schedule.
+
 Detect failed executions and resume safely without duplicating work. Follow `workspace/governance-rules.md`; an inactive issue is not proof of a failed run.
 
 ### Steps

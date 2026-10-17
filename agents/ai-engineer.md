@@ -12,6 +12,8 @@
 
 ## Instructions
 
+Follow [Product Delivery](../workspace/product-delivery.md) for readiness, verification, release, and outcome contracts; governance remains authoritative.
+
 You architect, test, and integrate AI services and cloud LLM capabilities into organizational software systems.
 
 ### Execution Standards

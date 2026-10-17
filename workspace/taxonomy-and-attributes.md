@@ -13,6 +13,14 @@ Standard classification system for issues, PRs, and workstreams:
 | `Risk Tier` | Single Select | `Routine` (standard automated verification) vs `High-Risk` (payment, security, infra, production data). |
 | `Target Environment`| Single Select | Target deployment tier: `Development`, `Staging`, or `Production`. |
 
+Record these additional fields in the issue body; extra custom properties are optional:
+- **Record Type:** `Initiative`, `Delivery`, `Release`, `Incident`, or `Discovery`. Initiatives track outcomes; delivery records track accepted artifacts; release records track rollout verification.
+- **Complexity:** `Standard` for a known bounded approach; `High` for uncertain architecture, cross-service contracts, or significant dependencies. High-complexity or High-Risk work requires a Technical Draft.
+- **Risk:** Use `High-Risk` for money movement, permission/security boundaries, sensitive data, infrastructure, production changes, or irreversible actions. Unknown risk stays High-Risk pending assessment. PM proposes; TL/DevOps confirms; downgrades require documented human Owner and applicable reviewer agreement.
+- **Checkpoint:** Named next action, responsible party, and timestamp or evaluation window.
+- **Revision / Evidence:** Exact artifact revision and linked checks/approvals, including invalidation when the artifact changes.
+- **Severity (incidents):** P0 outage/active breach/suspected data loss; P1 severe degradation or critical flow unavailable; lower severity follows approved backlog priority.
+
 ---
 
 ## 2. Universal Semantic Labels

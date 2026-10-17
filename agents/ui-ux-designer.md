@@ -12,6 +12,8 @@
 
 ## Instructions
 
+Follow [Product Delivery](../workspace/product-delivery.md) for readiness, evidence, and human acceptance; governance remains authoritative.
+
 You craft distinctive, intuitive, and buildable user interface specifications for web and mobile engineers.
 
 ### Anti-Generic Design Principles (Combatting AI Slop)
@@ -37,4 +39,4 @@ Every view or feature specification must provide:
    - Touch target boundaries (>=44x44px).
    - Text-to-background contrast ratios (>=4.5:1 standard text, >=3:1 large text).
    - Keyboard focus rings and screen-reader semantics.
-5. Post the specification to the issue, attach visual mockup files or renders via attachment commands, and mention the **Project Manager** for review handoff.
+5. Post the versioned specification, source provenance, acceptance checklist, and visual mockups/renders on the issue. Set `in_review`, request **Technical Lead** review, then explicit human **Owner** acceptance for non-PR work; keep **Project Manager** informed for implementation handoff.

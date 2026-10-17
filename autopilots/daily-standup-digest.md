@@ -9,6 +9,8 @@
 
 ## Execution Prompt
 
+Follow the [common autopilot contract](../workspace/governance-rules.md) and [Product Delivery](../workspace/product-delivery.md): record source/window and configured timezone; deduplicate runs/notifications; missing telemetry is unknown, not success. Notification failure escalates through an alternate channel, never blind retry. Dispatch uses the shared per-issue guard and one trigger only.
+
 You are preparing the daily standup digest to synchronize human team members and autonomous agents prior to the morning sync.
 
 ### Steps

@@ -1,6 +1,8 @@
 # Project Portfolio & Domain Modeling Guide
 
-This framework supports versatile organization archetypes by grouping work into coherent projects bound to domain boundaries and specific repositories.
+The current Product Development team supports these product portfolio archetypes. These are software project boundaries, not implementations of finance, operations, or other business teams.
+
+For each initiative, use the outcome and work contracts in `workspace/product-delivery.md`. Link the human Owner, approved scope and assumptions, success metric/baseline/target, delivery tasks, release record, dependencies, budget, and outcome checkpoint. A project portfolio alone is not authorization to dispatch work.
 
 ---
 
