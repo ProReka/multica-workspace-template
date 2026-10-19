@@ -1,6 +1,6 @@
 # Product Development Delivery Playbook
 
-This is the domain playbook for the existing Product Development team. `workspace/governance-rules.md` remains authoritative. Use the contracts below in issues and release records; do not create a parallel tracking system.
+Reference playbook for coordinators and reviewers; consult relevant sections for a task, never embed this entire document in every agent prompt. It is not a prerequisite checklist for every small coding task. Apply initiative contracts to initiatives, not repeatedly to each child issue. This is the domain playbook for the existing Product Development team. `workspace/governance-rules.md` remains authoritative. Use the contracts below in issues and release records; do not create a parallel tracking system.
 
 ## 1. Ownership & Intake
 

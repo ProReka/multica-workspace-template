@@ -1,6 +1,6 @@
 # Workspace Governance & Operating Rules
 
-These rules apply universally to all autonomous AI agents and human collaborators in this workspace. Role-specific instructions extend these rules; they never override or cancel them. For the current Product Development team, also load `workspace/product-delivery.md`. Adoption must pass `workspace/operational-readiness.md` before production automation is enabled.
+Operator reference, not an agent prompt. Do not paste this document into agent instructions. Use `workspace/shared-context.md` once at workspace scope; keep role prompts separate. Platform system instructions, permissions, authorization, and workflow take precedence over this reference. Status names and trigger behavior below are conceptual examples to map to the actual runtime, not overrides. A template never authorizes commits, publication, execution, or issue completion. Adoption is covered by `workspace/operational-readiness.md`.
 
 ---
 
@@ -28,14 +28,11 @@ Human mentions notify individuals for consultation, business decisions, and appr
 Other human roles may be added as needed; record actual identities and approval authority in the workspace setup.
 
 ### Autonomous Agent Team
-Available responsibilities and skill bindings are defined in `agents/`; do not maintain a second agent inventory here. Map responsibilities to actual agent identities in the workspace setup.
+Role prompts are defined in `agents/`; map responsibilities to actual agent identities in the workspace setup. Attach relevant skills through the runtime registry, not by concatenating their contents into prompts.
 
 ### Multica Mentions
 
-- Trigger an agent with `[@<display name>](mention://agent/<actual-agent-id>)`.
-- Notify a human with `[@<display name>](mention://member/<actual-member-id>)`; this does not start an agent run.
-- Display names are unrestricted: `Technical Lead`, `Technical Lead - John`, and `TL - John Craig` may serve the same responsibility. The URI type and actual ID identify the target, not the label.
-- Resolve IDs from the current workspace directory. Never infer an ID from a name or send placeholder IDs. Plain text mentions do not trigger execution. Verify the target and use one trigger per step.
+Syntax is defined in `workspace/shared-context.md`. Resolve current workspace IDs; labels need not match role names.
 
 ---
 
@@ -62,7 +59,7 @@ Every issue must have **exactly one human Owner**:
    - Sets status to `in_progress`, checks out a dedicated branch, and posts a short plan.
    - Writes clean, self-documenting code with unit/integration tests and zero linter warnings.
    - Opens a Pull Request adhering to Conventional Commits and attaches verification evidence. For non-PR work (design, analysis, or external documentation), attaches the versioned artifact and validation evidence instead.
-4. **Request Review:** Developer sets status to `in_review` and mentions the agent mapped to Technical Lead using the Multica format above, including the artifact/PR link, summary, tests run, and risks.
+4. **Request Review:** Developer sets status to `in_review` and mentions the agent mapped to Technical Lead using the shared Multica mention format, including the artifact/PR link, summary, tests run, and risks.
    *Application developers never request human review or merge before TL approval. Pure infrastructure work follows the DevOps gate below.*
 5. **Review Gate & Pragmatic Circuit-Breaker:**
    - Technical Lead inspects diff accuracy, test coverage, security boundaries, and acceptance criteria.

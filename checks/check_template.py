@@ -26,14 +26,14 @@ for path in root.rglob("*.md"):
         else:
             columns = None
 
-skill_names = {path.parent.name for path in skills}
 for path in agents:
     text = path.read_text()
-    binding = re.search(r"^- \*\*Bound Skills:\*\* (.+)$", text, re.M)
-    assert binding, f"{path}: missing skill binding"
-    for skill in re.findall(r"`([^`]+)`", binding.group(1)):
-        assert skill in skill_names, f"{path}: unknown skill {skill}"
-    assert "workspace/product-delivery.md" in text, f"{path}: missing domain context"
+    assert text.startswith("You are "), f"{path}: role prompt must be directly pasteable"
+    assert len(text.split()) <= 220, f"{path}: role prompt exceeds 220-word ceiling"
+    assert "workspace/" not in text and "## Instructions" not in text, f"{path}: embedded reference/metadata"
+
+shared = (root / "workspace/shared-context.md").read_text()
+assert len(shared.split()) <= 300, "Shared context exceeds 300-word ceiling"
 
 readiness = (root / "workspace/operational-readiness.md").read_text()
 benchmark_ids = re.findall(r"^\| (B\d+) \|", readiness, re.M)
