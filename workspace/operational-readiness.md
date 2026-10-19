@@ -4,7 +4,7 @@ Operator-only setup and acceptance reference. Never embed this document, setup i
 
 ## 1. Setup Record
 
-Use this record as the single configuration source for the target workspace, or link to existing platform records instead of copying them. Role names identify responsibilities, not required display names; resolve actual agent/member IDs from the workspace directory. Keep credentials in the platform secret store, never in these documents.
+Use this operator record to link configuration and evidence. For living platform data (members, agents, project leads, repositories, squads), reference authoritative records rather than duplicating their contents; snapshots used for setup verification must be dated and never become permanent instruction rosters. Role names identify responsibilities, not required display names. Keep credentials in the platform secret store, never in these documents.
 
 ```text
 Company / domain / repository organization / issue prefix / product:
@@ -28,7 +28,7 @@ Pilot evidence / unresolved limitations / human go-live decision:
 
 Map each enabled role to the actual runtime capability and least-privilege tools; model descriptions are capability requirements, not vendor guarantees. A single human may hold multiple roles where appropriate, but do not represent that as independent review. Critical self-authored work requires a separate qualified reviewer.
 
-Provision according to the placement contract in README. Set each agent's instructions to only its role file, verbatim; do not prepend governance, playbooks, setup records, or a generated deployment-boundary essay. Install `workspace/shared-context.md` once through the platform's workspace-wide context mechanism; if unavailable, make it an accessible reference rather than copying all documents into agents. Register relevant skills separately and expose references through a verified document store. Missing local paths are not a reason to inline the source tree. Temporary restrictions belong in runtime permissions and concise shared configuration; task-specific constraints belong in the issue. For Multica, use the shared mention format; verify actual status/trigger behavior. Never weaken runtime rules to match template examples.
+Provision according to the placement contract in README. Set each agent's instructions to only its role file, verbatim; do not prepend governance, playbooks, setup records, or a generated deployment-boundary essay. Adapt `workspace/shared-context.md` to confirmed company identity, products, boundaries, and communication; preserve its substantive team agreements. Preview missing/uncertain business facts for human confirmation, then install the adapted result once at workspace scope. Do not copy the file verbatim with placeholders or replace useful identity with generic rules. If workspace context is unavailable, report the limitation rather than copying all documents into agents. Register relevant skills separately and expose references through a verified document store. Missing local paths are not a reason to inline the source tree. Temporary restrictions belong in runtime permissions and concise shared configuration; task-specific constraints belong in the issue. Resolve current members/agents/projects and official routing syntax from platform records and tools; keep dynamic rosters, IDs, and syntax specifications out of permanent instructions. Verify actual status/trigger behavior. Never weaken runtime rules to match template examples.
 
 ## 2. Activation Sequence
 
@@ -46,7 +46,7 @@ For every scenario record: environment/runtime version, model/prompt revision, t
 
 | ID | Scenario | Observable pass condition |
 |---|---|---|
-| B00 | Provisioning read-back | Agent instructions match only the selected role file; no imported reference blocks or generated preamble; shared context stored separately; platform controls unchanged |
+| B00 | Provisioning read-back | Role instructions match the selected source, with substantive role procedure/checks and no imported documents. Separate workspace context contains human-confirmed company/products/boundaries/communication and working agreements, no unresolved business placeholders or copied dynamic rosters/IDs/platform syntax; platform controls unchanged |
 | B01 | Feature with incomplete intake | PM identifies missing Owner/acceptance criteria; no implementation dispatched |
 | B02 | Low-risk end-to-end feature | Accepted outcome contract, one dispatch, verified implementation, revision-bound TL review, human merge; release and outcome tracked separately |
 | B03 | Duplicate mention/webhook or concurrent watchdog | One execution/side effect; durable deduplication evidence across competing dispatchers |

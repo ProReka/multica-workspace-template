@@ -30,9 +30,9 @@ Other human roles may be added as needed; record actual identities and approval 
 ### Autonomous Agent Team
 Role prompts are defined in `agents/`; map responsibilities to actual agent identities in the workspace setup. Attach relevant skills through the runtime registry, not by concatenating their contents into prompts.
 
-### Multica Mentions
+### Platform Routing
 
-Syntax is defined in `workspace/shared-context.md`. Resolve current workspace IDs; labels need not match role names.
+Resolve current workspace identities and supported dispatch/mention syntax through the platform's own directory and tool contracts. Do not maintain IDs, roster tables, or duplicate syntax specifications in instructions; labels need not match role names.
 
 ---
 
@@ -59,12 +59,12 @@ Every issue must have **exactly one human Owner**:
    - Sets status to `in_progress`, checks out a dedicated branch, and posts a short plan.
    - Writes clean, self-documenting code with unit/integration tests and zero linter warnings.
    - Opens a Pull Request adhering to Conventional Commits and attaches verification evidence. For non-PR work (design, analysis, or external documentation), attaches the versioned artifact and validation evidence instead.
-4. **Request Review:** Developer sets status to `in_review` and mentions the agent mapped to Technical Lead using the shared Multica mention format, including the artifact/PR link, summary, tests run, and risks.
+4. **Request Review:** Developer sets status to `in_review` and mentions the agent mapped to Technical Lead using the platform's supported routing mechanism, including the artifact/PR link, summary, tests run, and risks.
    *Application developers never request human review or merge before TL approval. Pure infrastructure work follows the DevOps gate below.*
 5. **Review Gate & Pragmatic Circuit-Breaker:**
    - Technical Lead inspects diff accuracy, test coverage, security boundaries, and acceptance criteria.
    - If changes are needed: TL provides numbered, actionable feedback and mentions the developer.
-   - **Pragmatic Circuit-Breaker:** After 3 failed review rounds, or immediately during critical production incidents (P0/P1), the Technical Lead has full authority to directly take over the branch, write or fix the required code, run tests, and complete delivery. This prevents token waste and eliminates infinite review loops.
+   - **Pragmatic Circuit-Breaker:** After 3 failed review rounds, or immediately during critical production incidents (P0/P1), the Technical Lead may take over the branch, write or fix the required code, and run tests within existing scope and authorization; human gates remain mandatory. This prevents token waste and eliminates infinite review loops.
 6. **Applicable Technical Gate:**
    - Application changes and non-PR deliverables require `APPROVED (TL)` after Technical Lead review.
    - Pure infrastructure changes require DevOps self-review with `READY (DevOps)` and plan/verification evidence; TL review is not required.
@@ -83,11 +83,9 @@ Every issue must have **exactly one human Owner**:
 ---
 
 ## 6. Agent Run Trigger Mechanics
-- Agent execution starts only when:
-  a. An issue is assigned to the agent with an active status (`todo`, `in_progress`).
-  b. The agent is invoked via an official mention URI link.
-- **One trigger per step:** Use status assignment OR mention, never both simultaneously.
-- Status `backlog` parks work; assigning in backlog triggers nothing.
+- Discover supported triggers and status behavior from the current runtime's tool contracts; verify the configuration during setup. Do not assume every platform treats assignment, mentions, or backlog the same way.
+- **One trigger per step:** Use one supported dispatch mechanism, not simultaneous assignment and mention triggers. Check current queued/running work and verify dispatch results.
+- Park unapproved work using the runtime's non-executing state; a template status label is not proof that dispatch is disabled.
 
 ### Issue, Run & PR State Are Separate
 - **Issue lifecycle:** `backlog` → `todo` → `in_progress` → `in_review` → `done`; `blocked` requires a stated dependency and responsible party. Human approval waits remain `in_review`, never `todo`.
